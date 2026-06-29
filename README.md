@@ -1,10 +1,7 @@
 # Gen3 Lite + RealSense D435 Eye-in-Hand Hand Following
 
 <div align="center">
-  <a href="实操演示.mp4" target="_blank">
-    <img src="demo_thumbnail.jpg" alt="Gen3 Lite Hand Following Demo" width="720">
-  </a>
-  <p><em>👆 点击图片播放演示视频</em></p>
+  <video src="实操演示.mp4" poster="demo_thumbnail.jpg" width="720" controls autoplay loop muted playsinline></video>
 </div>
 
 这是一个 ROS Noetic / Python3 项目包，用于 Kinova Gen3 Lite 末端安装 RealSense D435 的「人手跟随」实验。核心链路是：
