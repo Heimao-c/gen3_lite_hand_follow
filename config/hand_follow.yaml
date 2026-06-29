@@ -1,0 +1,92 @@
+hand_detector:
+  base_frame: base_link
+  camera_frame: camera_color_optical_frame
+
+  color_topic: /camera/color/image_raw
+  depth_topic: /camera/aligned_depth_to_color/image_raw
+  camera_info_topic: /camera/color/camera_info
+
+  depth_scale: 0.001
+  min_depth_m: 0.20
+  max_depth_m: 3.00
+  depth_window_px: 15
+  depth_fallback_window_px: 61
+  min_valid_depth_samples: 3
+  max_sync_slop_s: 0.06
+
+  mediapipe_model_complexity: 0
+  min_detection_confidence: 0.65
+  min_tracking_confidence: 0.60
+  # wrist, index_mcp, middle_mcp, ring_mcp, pinky_mcp
+  landmark_indices: [0, 5, 9, 13, 17]
+
+  enable_filter: true
+  one_euro_min_cutoff: 1.2
+  one_euro_beta: 0.04
+  one_euro_d_cutoff: 1.0
+
+  publish_debug_image: true
+  flip_rgb: false
+  enable_gesture: true
+  open_finger_min_count: 3
+  fist_finger_max_count: 1
+  # Use latest available TF for camera->base conversion. This avoids common
+  # image timestamp vs robot_state_publisher extrapolation failures.
+  use_latest_tf_for_base: true
+
+hand_follow_controller:
+  robot_name: my_gen3
+  base_frame: base_link
+  tool_frame: end_effector_link
+  camera_frame: camera_color_optical_frame
+
+  hand_camera_topic: /hand_detector/hand_pose_camera
+  hand_base_topic: /hand_detector/hand_pose_base
+  cartesian_velocity_topic: /my_gen3/in/cartesian_velocity
+  # Kortex CartesianReferenceFrame: BASE is normally 3. Check with:
+  # rosmsg show kortex_driver/CartesianReferenceFrame
+  kortex_reference_frame: 3
+
+  # Keep true for first TF and direction tests. Set false only when the robot is ready.
+  dry_run: true
+
+  control_rate_hz: 30.0
+  target_timeout_s: 1.50
+  startup_hold_s: 1.0
+
+  # Desired hand position in camera optical frame:
+  # x right, y down, z forward, meters.
+  desired_hand_camera_x: 0.0
+  desired_hand_camera_y: 0.0
+  desired_hand_distance_m: 0.32
+
+  # Conservative following defaults. If XY oscillates, return to [0.0, 0.0, 0.25].
+  kp: 0.25
+  kp_xyz: [0.22, 0.22, 0.48]
+  invert_command_sign: false
+  feedforward_gain: 0.0
+  latency_comp_s: 0.0
+  deadband_m: 0.04
+  deadband_xyz_m: [0.035, 0.035, 0.04]
+  command_lpf_alpha: 0.38
+  max_linear_speed_mps: 0.14
+  max_linear_accel_mps2: 0.45
+
+  # Base-frame safety box for tool_frame. Tune for your table, camera bracket, and operator area.
+  workspace_min_xyz: [-0.45, -0.55, 0.05]
+  workspace_max_xyz: [0.65, 0.55, 0.75]
+  stop_near_workspace_margin_m: 0.02
+
+gesture_gripper:
+  robot_name: my_gen3
+  gesture_topic: /hand_detector/hand_gesture
+  command_mode: kortex_service
+  service_name: /my_gen3/base/send_gripper_command
+  # Gen3 Lite gripper position values are usually 0.0=open, 1.0=fully closed.
+  # Start with 0.70-0.80 to avoid excessive squeeze, then tune.
+  open_value: 0.0
+  close_value: 0.75
+  finger_identifier: 0
+  debounce_count: 5
+  min_command_interval_s: 1.0
+  dry_run: true

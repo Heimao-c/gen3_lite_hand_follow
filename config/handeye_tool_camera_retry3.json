@@ -1,0 +1,64 @@
+{
+  "frames": {
+    "base_frame": "base_link",
+    "tool_frame": "end_effector_link",
+    "camera_frame": "camera_color_optical_frame",
+    "target_frame": "checkerboard"
+  },
+  "checkerboard": {
+    "inner_corners": [
+      7,
+      5
+    ],
+    "square_size_m": 0.031
+  },
+  "T_tool_camera": [
+    [
+      0.5402665264269553,
+      -0.7494226141649656,
+      -0.38272421637610193,
+      0.08527739082893107
+    ],
+    [
+      0.7724467714245763,
+      0.62210023671762,
+      -0.12773911222342854,
+      -0.07086621603976238
+    ],
+    [
+      0.33382340501873237,
+      -0.22662091883590607,
+      0.9149890127251088,
+      0.22382300230315322
+    ],
+    [
+      0.0,
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "translation_xyz_m": [
+    0.08527739082893107,
+    -0.07086621603976238,
+    0.22382300230315322
+  ],
+  "rotation_quaternion_xyzw": [
+    -0.02818366984721186,
+    -0.2042331373489352,
+    0.43376901963502806,
+    0.877119686227268
+  ],
+  "sample_count": 30,
+  "consistency": {
+    "target_translation_std_m": [
+      0.07770648958282289,
+      0.0821583340166224,
+      0.045494410493891045
+    ],
+    "target_translation_error_mean_m": 0.1096682945903568,
+    "target_translation_error_max_m": 0.21181664259430316,
+    "target_rotation_error_mean_deg": 71.79742013048345,
+    "target_rotation_error_max_deg": 176.38575896707817
+  }
+}

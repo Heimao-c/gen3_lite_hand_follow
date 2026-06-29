@@ -1,0 +1,21 @@
+<launch>
+  <arg name="robot_name" default="my_gen3"/>
+  <arg name="dry_run" default="true"/>
+
+  <!-- This launch uses the supplied retry3 calibration:
+       T_tool_camera = end_effector_link -> camera_color_optical_frame.
+
+       A virtual optical frame is used to avoid TF conflicts with RealSense,
+       which may already publish camera_link -> camera_color_optical_frame. -->
+  <include file="$(find gen3_lite_hand_follow)/launch/hand_follow.launch">
+    <arg name="robot_name" value="$(arg robot_name)"/>
+    <arg name="dry_run" value="$(arg dry_run)"/>
+    <arg name="base_frame" value="base_link"/>
+    <arg name="tool_frame" value="end_effector_link"/>
+    <arg name="camera_frame" value="handeye_camera_color_optical_frame"/>
+    <arg name="publish_handeye_tf" value="true"/>
+    <arg name="handeye_parent_frame" value="end_effector_link"/>
+    <arg name="handeye_child_frame" value="handeye_camera_color_optical_frame"/>
+    <arg name="handeye_xyz_quat" value="0.08527739082893107 -0.07086621603976238 0.22382300230315322 -0.02818366984721186 -0.2042331373489352 0.43376901963502806 0.877119686227268"/>
+  </include>
+</launch>
